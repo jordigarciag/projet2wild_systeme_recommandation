@@ -46,7 +46,8 @@ def prepare_data(df_movies):
     df_movies['genres'] = df_movies['genres'].apply(lambda x: x.replace("'","").replace("[","").replace("]","").split(","))
     df_movies['genres'] = df_movies['genres'].apply(lambda x: [genre.strip() for genre in x if genre.strip()])
     df_movies['budget'] = df_movies['budget'].fillna(df_movies['budget'].mean())
-    
+    df_movies['castage'].fillna(50, inplace=True)
+    df_movies['castage']=df_movies['castage'].apply(lambda x: 50 if x<1 else x)
     all_genres = df_movies['genres'].explode().value_counts().nlargest(23).index.tolist()
     
     for genre in all_genres:
@@ -121,11 +122,11 @@ def params_recommendations():
             df_movies = load_data()
             df_movies, unique_genres = prepare_data(df_movies)
             
-            feature_columns = ['rate', 'year', 'runtimeMinutes', 'budget'] + [f'genre_{genre}' for genre in unique_genres]
+            feature_columns = ['castage', 'rate', 'year', 'runtimeMinutes', 'budget'] + [f'genre_{genre}' for genre in unique_genres]
             X = df_movies[feature_columns].copy()
             X = X.fillna(0)
             scaler = MinMaxScaler()
-            X[['rate', 'year', 'runtimeMinutes', 'budget']] = scaler.fit_transform(X[['rate', 'year', 'runtimeMinutes', 'budget']])
+            X[['castage', 'rate', 'year', 'runtimeMinutes', 'budget']] = scaler.fit_transform(X[['castage', 'rate', 'year', 'runtimeMinutes', 'budget']])
             model = NearestNeighbors(n_neighbors=20, metric='euclidean')
             model.fit(X)
             
@@ -171,10 +172,10 @@ def params_recommendations():
                             runtime = (runtime_range[0] + runtime_range[1]) / 2 if runtime_range else df['runtimeMinutes'].mean()
                             budget = df['budget'].mean()
                             
-                            values_array = np.array([[rate, year, runtime, budget]])
+                            values_array = np.array([[age, rate, year, runtime, budget]])
                             normalized_values = scaler.transform(values_array)
                             
-                            for i, feature in enumerate(['rate', 'year', 'runtimeMinutes', 'budget']):
+                            for i, feature in enumerate(['castage', 'rate', 'year', 'runtimeMinutes', 'budget']):
                                 input_features[feature_columns.index(feature)] = normalized_values[0][i]
                             
                             genre_column = f'genre_{selected_genre}'
