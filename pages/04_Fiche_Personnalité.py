@@ -118,4 +118,5 @@ try:
     """, unsafe_allow_html=True)
 
 except Exception as e:
-    st.error("Une erreur s'est produite. Veuillez vérifier l'ID de la personnalité. ❌")
+    st.error(f"Une erreur s'est produite : {str(e)}")
+    st.error(f"Type d'erreur : {type(e).__name__}")
