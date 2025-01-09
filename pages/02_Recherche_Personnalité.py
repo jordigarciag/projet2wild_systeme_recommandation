@@ -110,7 +110,7 @@ if actor_search:
             listtt=pd.DataFrame(data={'role': listroles, 'num': numroles}).sort_values('num', ascending=False)
             st.caption(f"{(((listtt['num'].values[0]!=0)*listtt['role'].values[0])+'   '+((listtt['num'].values[1]!=0)*listtt['role'].values[1])).strip()+'   '+(((listtt['num'].values[2]!=0)*listtt['role'].values[2])+'   '+((listtt['num'].values[3]!=0)*listtt['role'].values[3])).strip()}")
             
-            if st.button(f"**{row['primaryName']}**"):
+            if st.button(f"**{row['primaryName']}**", key=row):
                 st.session_state['nconst'] = row['nconst']
                 time.sleep(1.5)
                 switch_page('Fiche Personnalité')

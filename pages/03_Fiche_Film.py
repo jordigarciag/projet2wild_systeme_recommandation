@@ -104,7 +104,8 @@ dfml=pd.merge(left=dfml, right=dfml['genres'].explode().str.get_dummies().reset_
 dfml.drop(columns=['tconst','genres'], inplace=True)
 dfml['original_language']=dfml['original_language'].apply(lambda x: 1 if x=='fr' else 0)
 dfml.rename(columns={"original_language": "fr"}, inplace=True)
-
+dfml['castage'].fillna(50, inplace=True)
+dfml['castage']=dfml['castage'].apply(lambda x: 50 if x<1 else x)
 # Normalisation des features numériques
 scaler = MinMaxScaler()
 dftsca = scaler.fit_transform(dfml)
