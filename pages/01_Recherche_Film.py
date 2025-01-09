@@ -80,7 +80,7 @@ if movie_search:
             cols = st.columns(N_cards_per_row, gap="medium")
         # draw the card
         with cols[n_row%N_cards_per_row]:
-            if st.button(f"**{row['title']}**"):
+            if st.button(f"**{row['title']}**", key=row):
                 st.session_state['tconst'] = row['tconst']
                 time.sleep(1.5)
                 switch_page('Fiche Film')
