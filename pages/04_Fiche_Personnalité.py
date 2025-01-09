@@ -82,9 +82,8 @@ try:
             st.write(f"✝️ **Date de décès:** {tmdbapi['deathday']}")
         st.write(f"🌍 **Lieu de naissance:** {tmdbapi.get('place_of_birth', 'Non disponible')}")
         
-        with st.container(height=300):
-            st.write("📝 **Biographie:**")
-            st.write(f"{tmdbapi.get('biography', 'Biographie non disponible')}")
+        st.write("📝 **Biographie:**")
+        st.write(f"{tmdbapi.get('biography', 'Biographie non disponible')}")
 
     # Contenu principal dans la deuxième colonne
     with col2:
