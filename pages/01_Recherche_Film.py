@@ -113,10 +113,18 @@ if movie_search:
                 
             st.markdown(f"**{row['rate']}**/10 _({int(row['vote'])})_")
             try:
-                path=requests.get('https://api.themoviedb.org/3/find/'+row['tconst']+'?external_source=imdb_id&language=fr', headers=headers).json()['movie_results'][0]['poster_path']
-                st.image(f"https://image.tmdb.org/t/p/w500{path}", width=300)  # Réduction de la taille des images
+                path = requests.get('https://api.themoviedb.org/3/find/'+row['tconst']+'?external_source=imdb_id&language=fr', headers=headers).json()['movie_results'][0]['poster_path']
+                image_url = f"https://image.tmdb.org/t/p/w500{path}"
+                st.markdown(
+                    f"""
+                    <div style="text-align: center;">
+                        <img src="{image_url}" width="300" title="Cliquez sur le titre pour accéder à la fiche du film">
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
             except:
-                st.image(f"blank_mov.png", width=300)
+                st.image("blank_mov.png", width=300)
 
 st.write("")
 st.divider()
